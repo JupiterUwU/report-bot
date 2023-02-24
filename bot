@@ -1,5 +1,12 @@
-repeat task.wait() until game:IsLoaded()
-_G.Whitelisted = {"dalloc3, dalloc2, PpScoped, Hall0wee_d, MissusQuill, yourgirlmake1, Panda_BabyDoll, kahandula23133"}
+local Exclusions = {"dalloc3", "hackdude999", "kahandula23133", "Panda_BabyDoll", "02Hub", "XxxKeEpUxxX", "e2s_prison
+", "pirateqa", "MemoryEd1tor", "Hall0wee_d", "ucantbme2", "SabersDamnAlt", "nwicoss"}
+if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+    table.insert(Exclusions, v.Name)
+end
+for i, v in pairs(game.Players:GetPlayers()) do
+    if not table.find(Exclusions, v.Name) and v.Name ~= LocalPlayer.Name then
+        repeat task.wait() until game:IsLoaded()
+
 words = {
     ['gay'] = 'Bullying',
     ['lesbian'] = 'Bullying',
@@ -145,8 +152,8 @@ end
 msg = DCSCE:FindFirstChild('OnMessageDoneFiltering')
 msg.OnClientEvent:Connect(function(msgdata)
     if tostring(msgdata.FromSpeaker) ~= players.LocalPlayer.Name then
-	if not table.find(_G.Whitelisted, msgdata.FromSpeaker) then 
        handler(tostring(msgdata.Message),tostring(msgdata.FromSpeaker))
-	end
     end
 end)
+    end
+end
