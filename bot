@@ -1,7 +1,9 @@
 local Exclusions = {"dalloc3", "hackdude999", "kahandula23133", "Panda_BabyDoll", "02Hub", "XxxKeEpUxxX", "e2s_prison
 ", "pirateqa", "MemoryEd1tor", "Hall0wee_d", "ucantbme2", "SabersDamnAlt", "nwicoss"}
-if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-    table.insert(Exclusions, v.Name)
+for i,v in pairs(game.Players:GetPlayers()) do
+    if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+        table.insert(Exclusions,v.Name)
+    end
 end
 for i, v in pairs(game.Players:GetPlayers()) do
     if not table.find(Exclusions, v.Name) and v.Name ~= LocalPlayer.Name then
