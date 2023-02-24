@@ -1,13 +1,4 @@
-local Exclusions = {"dalloc3", "hackdude999", "kahandula23133", "Panda_BabyDoll", "02Hub", "XxxKeEpUxxX", "e2s_prison
-", "pirateqa", "MemoryEd1tor", "Hall0wee_d", "ucantbme2", "SabersDamnAlt", "nwicoss"}
-for i,v in pairs(game.Players:GetPlayers()) do
-    if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-        table.insert(Exclusions,v.Name)
-    end
-end
-for i, v in pairs(game.Players:GetPlayers()) do
-    if not table.find(Exclusions, v.Name) and v.Name ~= LocalPlayer.Name then
-        repeat task.wait() until game:IsLoaded()
+repeat task.wait() until game:IsLoaded()
 
 words = {
     ['gay'] = 'Bullying',
@@ -54,6 +45,19 @@ words = {
     ['youtube'] = 'Offsite Links',
     ['dizzy'] = 'Offsite Links',
 }
+local Exclusions = {}
+
+for i,v in pairs(game.Players:GetPlayers()) do
+    if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+        table.insert(Exclusions,v.Name)
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(Player)
+    if Player:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+        table.insert(Exclusions,Player.Name)
+    end
+end)
 
 if not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents') or not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents'):FindFirstChild('OnMessageDoneFiltering') then return end
 DCSCE = game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents')
@@ -87,11 +91,17 @@ end
 
 function handler(msg,speaker)
    for i,v in next, words do
-      if string.match(string.lower(msg),i) then
-         players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-         task.wait(1.5)
-         players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-         if autoreportcfg.Webhook ~= nil and autoreportcfg.Webhook ~= '' and autoreportcfg.Webhook ~= ' ' then
+    if string.match(string.lower(msg),i) then
+        if not table.find(Exclusions, players[speaker].Name) then
+            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+            task.wait(1.5)
+            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+            task.wait(1.5)
+            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+        end
+    end
+        if autoreportcfg.Webhook ~= nil and autoreportcfg.Webhook ~= '' and autoreportcfg.Webhook ~= ' ' then
          local data = 
          {
              ["embeds"] = {{
@@ -157,5 +167,3 @@ msg.OnClientEvent:Connect(function(msgdata)
        handler(tostring(msgdata.Message),tostring(msgdata.FromSpeaker))
     end
 end)
-    end
-end
