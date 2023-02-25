@@ -16,6 +16,8 @@ words = {
     ['mother'] = 'Bullying',
     ['dumb'] = 'Bullying',
     ['stupid'] = 'Bullying',
+    ['sped'] = 'Bullying', --new
+    ['slow'] = 'Bullying', --new
     ['cringe'] = 'Bullying',
     ['skill issue'] = 'Bullying',
     ['parent'] = 'Bullying',
@@ -30,6 +32,8 @@ words = {
     ['loser'] = 'Bullying',
     ['black'] = 'Bullying',
     [' white '] = 'Bullying',
+    ['ez'] = 'Bullying', --new
+    ['EZ'] = 'Bullying', --new
     ['ez l'] = 'Bullying',
     ['l ez'] = 'Bullying',
     ['negro'] = 'Bullying',
@@ -38,26 +42,19 @@ words = {
     ['bad'] = 'Bullying',
     ['worst'] = 'Bullying',
     ['fat'] = 'Bullying',
+    ['@killyourself'] = 'Bullying', --new
+    ['@kill yourself'] = 'Bullying', --new
+    ['Synapse'] = 'Cheating/Exploiting' --new
+    ['syn'] = 'Cheating/Exploiting' --new
     ['hack'] = 'Scamming',
     ['exploit'] = 'Scamming',
     ['cheat'] = 'Scamming',
+    ['free robux'] = 'Scamming', --new
     ['download'] = 'Offsite Links',
     ['youtube'] = 'Offsite Links',
     ['dizzy'] = 'Offsite Links',
+    ['robux generator'] = 'Offsite Links', --new
 }
-local Exclusions = {}
-
-for i,v in pairs(game.Players:GetPlayers()) do
-    if v:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-        table.insert(Exclusions,v.Name)
-    end
-end
-
-game.Players.PlayerAdded:Connect(function(Player)
-    if Player:IsFriendsWith(game.Players.LocalPlayer.UserId) then
-        table.insert(Exclusions,Player.Name)
-    end
-end)
 
 if not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents') or not game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents'):FindFirstChild('OnMessageDoneFiltering') then return end
 DCSCE = game:GetService('ReplicatedStorage'):FindFirstChild('DefaultChatSystemChatEvents')
@@ -91,16 +88,11 @@ end
 
 function handler(msg,speaker)
    for i,v in next, words do
-    if string.match(string.lower(msg),i) then
-        if not table.find(Exclusions, speaker) then
-            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-            task.wait(1.5)
-            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-            task.wait(1.5)
-            players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
-        end
-        if autoreportcfg.Webhook ~= nil and autoreportcfg.Webhook ~= '' and autoreportcfg.Webhook ~= ' ' then
+      if string.match(string.lower(msg),i) then
+         players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+         task.wait(1.5)
+         players:ReportAbuse(players[speaker],v,'He is breaking roblox TOS')
+         if autoreportcfg.Webhook ~= nil and autoreportcfg.Webhook ~= '' and autoreportcfg.Webhook ~= ' ' then
          local data = 
          {
              ["embeds"] = {{
@@ -151,11 +143,9 @@ function handler(msg,speaker)
      };
      request(abcdef);
     else
-        if not table.find(Exclusions, speaker) then
-            notify('Autoreport','Autoreported ' .. speaker .. ' | offensive part: ' .. i)
-        end
+        notify('Autoreport','Autoreported ' .. speaker .. ' | offensive part: ' .. i)
     end
-    if DCSCE:FindFirstChild('SayMessageRequest') and autoreportcfg.autoMessage.enabled == true and not table.find(Exclusions, speaker) then
+    if DCSCE:FindFirstChild('SayMessageRequest') and autoreportcfg.autoMessage.enabled == true then
        DCSCE.SayMessageRequest:FireServer('/w ' .. speaker .. ' ' .. autoreportcfg.autoMessage.Message,'All')
     end
       end
